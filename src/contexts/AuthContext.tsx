@@ -73,10 +73,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signInWithGoogle = async () => {
+    // Determine the correct redirect URL based on environment
+    const isLocalhost = window.location.hostname === 'localhost';
+    const redirectUrl = isLocalhost 
+      ? window.location.origin 
+      : 'https://himantha0515.github.io/Financial-hub/';
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin + '/Financial-hub/',
+        redirectTo: redirectUrl,
       },
     });
     return { error };
